@@ -1,6 +1,6 @@
-# Exercise 2
+# Exercise 4
 
-## Student Information App
+## SQLite DB CRUD ops
 <table>
   <tr>
     <td><img src="./images/i1.png" width=300 height=240></td>
