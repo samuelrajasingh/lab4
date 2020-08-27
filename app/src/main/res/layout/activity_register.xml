@@ -32,6 +32,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapWords"
             android:hint="@string/enter_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,7 +62,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
-            android:hint="@string/enter_phone" />
+
+            android:hint="@string/enter_phone"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -69,12 +72,13 @@
         android:id="@+id/editPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editPhone"
+        android:layout_below="@+id/editPassword"
         android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:hint="@string/enter_password" />
     </com.google.android.material.textfield.TextInputLayout>
 

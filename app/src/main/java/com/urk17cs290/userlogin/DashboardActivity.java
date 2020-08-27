@@ -42,7 +42,7 @@ public class DashboardActivity extends AppCompatActivity {
     logout = (Button) findViewById(R.id.button1);
     Log.d(
         "TAG",
-        "\n\n38).\n Email - "
+        "\n\n45).\n Email - "
             + emailHolder
             + " \n"
             + "Name - "
@@ -57,22 +57,25 @@ public class DashboardActivity extends AppCompatActivity {
     SQLiteDatabase db;
     try (SQLiteOpenHelper sqLiteHelper = new SQLiteHelper(DashboardActivity.this)) {
       db = sqLiteHelper.getReadableDatabase();
+      Log.d("TAG", "emailHolder before qry: "+emailHolder);
       String query = "select * from users where email = '" + emailHolder + "'";
       cursor = db.rawQuery(query, null);
-      // cursor = db.query(SQLiteHelper.TABLE_NAME, null, " " + SQLiteHelper.Table_Column_2_Email
-      // "=?", new String[]{emailHolder}, null, null, null);
-      if (cursor.moveToFirst()) {
-        do {
-          // get  the  data into array,or class variable
-          nameHolder = cursor.getString(cursor.getColumnIndex(SQLiteHelper.Table_Column_1_Name));
-          phoneHolder = cursor.getString(cursor.getColumnIndex(SQLiteHelper.Table_Column_3_Phone));
-          passwordHolder =
-              cursor.getString(cursor.getColumnIndex(SQLiteHelper.Table_Column_4_Password));
-          setAllValues();
-        } while (cursor.moveToNext());
+//      cursor = db.query(SQLiteHelper.TABLE_NAME, null, " " + SQLiteHelper.Table_Column_2_Email + "=?", new String[]{emailHolder}, null, null, null);
+
+      while (cursor.moveToNext()) {
+        if (cursor.isFirst()) {
+          cursor.moveToFirst();
+          // Storing Password associated with entered email.
+          nameHolder = cursor.getString(1).trim();
+          phoneHolder = cursor.getString(3).trim();
+          passwordHolder = cursor.getString(4).trim();
+
+          // Closing cursor.
+          cursor.close();
+        }
       }
+      setAllValues();
       db.close();
-      cursor.close();
     } catch (Exception e) {
       Log.d("TAG", "Exception: " + e.getMessage());
     }
@@ -88,23 +91,24 @@ public class DashboardActivity extends AppCompatActivity {
   }
 
   public void setAllValues() {
-    Log.d(
-        "TAG",
-        "\n\n\n Email - "
-            + emailHolder
-            + " \n"
-            + "Name - "
-            + nameHolder
-            + "\n"
-            + "Phone - "
-            + phoneHolder
-            + "\n"
-            + "Pass - "
-            + passwordHolder
-            + "\n\n\n");
+
     email.setText(emailHolder);
     phone.setText(phoneHolder);
     name.setText(nameHolder);
     password.setText(passwordHolder);
+    Log.d(
+            "TAG",
+            "\n\n\n Email - "
+                    + emailHolder
+                    + " \n"
+                    + "Name - "
+                    + nameHolder
+                    + "\n"
+                    + "Phone - "
+                    + phoneHolder
+                    + "\n"
+                    + "Pass - "
+                    + passwordHolder
+                    + "\n\n\n");
   }
 }

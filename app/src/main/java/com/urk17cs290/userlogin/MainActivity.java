@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -112,7 +113,10 @@ public class MainActivity extends AppCompatActivity {
             // Going to Dashboard activity after login success message.
             Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
             // Sending Email to Dashboard Activity using intent.
-            intent.putExtra(USER_EMAIL, EmailHolder);
+            intent.putExtra("USER_EMAIL", EmailHolder);
+            intent.putExtra("USER_PASS",tempPassword);
+              Log.d("TAG", "CheckFinalResult: emailHolder : "+EmailHolder);
+
             startActivity(intent);
         }
         else {
