@@ -9,22 +9,22 @@
 
 
     <TextView
-        android:text="SQLite User Login Screen"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/sqlite_user_login_screen"
+        android:textSize="20sp" />
 
     <ImageView
-        android:padding="20dp"
         android:id="@+id/loginImage"
         android:layout_width="280dp"
         android:layout_height="280dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:backgroundTint="#FFFFFF"
+        android:padding="20dp"
         app:srcCompat="@drawable/login" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -37,10 +37,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/myMail"
-            android:inputType="textWebEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:inputType="textWebEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,17 +47,16 @@
         android:id="@+id/editPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_below="@+id/editEmail"
+        android:layout_margin="10dp"
 
         android:hint="@string/enter_password">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/myPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:id="@+id/myPass"
-            />
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,15 +70,17 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:background="#3E298C"
-        android:text="Log IN "
+        android:background="@color/btnColor"
+        android:text="@string/log_in"
         android:textColor="#FFFFFF" />
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_below="@+id/buttonLogin"
-    android:text="@string/don_t_have_account"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonLogin"
+        android:layout_centerHorizontal="true"
+        android:text="@string/don_t_have_account" />
+
     <Button
         android:id="@+id/buttonRegister"
         android:layout_width="280dp"
@@ -91,8 +91,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:background="#3E298C"
-        android:text="Sign up"
+        android:background="@color/btnColor"
+        android:text="@string/sign_up"
         android:textColor="#FFFFFF" />
 
 </RelativeLayout>

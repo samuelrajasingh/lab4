@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. styles.xml -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#6200EE</item>
+        <item name="colorPrimaryDark">#3700B3</item>
+        <item name="colorAccent">#90ee02</item>
+        <item name="android:textColorPrimary">@android:color/primary_text_dark</item>
+    </style>
+
+    <style name="MyDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert"/>
+
+</resources>

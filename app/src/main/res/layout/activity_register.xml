@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="SQLite User Registration"
+        android:text="@string/sqlite_user_login_screen"
         android:gravity="center"
         android:textSize="20sp"
         android:textColor="#000"
@@ -42,7 +42,6 @@
         android:id="@+id/editEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editName"
         android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -55,7 +54,6 @@
         android:id="@+id/editPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editEmail"
         android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -72,7 +70,6 @@
         android:id="@+id/editPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editPassword"
         android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -87,10 +84,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:id="@+id/buttonRegister"
-        android:layout_below="@+id/editPassword"
         android:layout_marginTop="20dp"
         android:textColor="@android:color/white"
-        android:background="#3E298C"
+        android:background="@color/btnColor"
         android:text="@string/register"/>
     </LinearLayout>
 

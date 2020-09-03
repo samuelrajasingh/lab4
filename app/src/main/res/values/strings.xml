@@ -11,4 +11,7 @@
     <string name="name">Name</string>
     <string name="password">Password</string>
     <string name="phone">Phone</string>
+    <string name="sqlite_user_login_screen">SQLite User Login Screen</string>
+    <string name="log_in">Log IN</string>
+    <string name="sign_up">Sign up</string>
 </resources>

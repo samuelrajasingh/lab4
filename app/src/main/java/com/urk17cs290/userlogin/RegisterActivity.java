@@ -6,24 +6,29 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Objects;
+
 public class RegisterActivity extends AppCompatActivity {
 
-    TextInputLayout Email, Password, Name,Phone ;
-    Button Register;
+    TextInputLayout email;
+    TextInputLayout password;
+    TextInputLayout name;
+    TextInputLayout phone;
+    Button register;
     String nameHolder;
     String emailHolder;
     String passwordHolder;
     String phoneHolder;
     Boolean editTextEmptyHolder;
     SQLiteDatabase db;
-    String SQLiteDataBaseQueryHolder ;
+    String sqlitedatabasequeryholder;
     SQLiteHelper sqLiteHelper;
     Cursor cursor;
     String fResult = "Not_Found";
@@ -33,32 +38,32 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Register = findViewById(R.id.buttonRegister);
+        register = findViewById(R.id.buttonRegister);
 
-        Email = findViewById(R.id.editEmail);
-        Password = findViewById(R.id.editPassword);
-        Name = findViewById(R.id.editName);
-        Phone = findViewById(R.id.editPhone);
+        email = findViewById(R.id.editEmail);
+        password = findViewById(R.id.editPassword);
+        name = findViewById(R.id.editName);
+        phone = findViewById(R.id.editPhone);
 
         sqLiteHelper = new SQLiteHelper(this);
 
         // Adding click listener to register button.
-        Register.setOnClickListener(view -> {
+        register.setOnClickListener(view -> {
 
             // Creating SQLite database if dose n't exists
-            SQLiteDataBaseBuild();
+            sqlitedatabasebuild();
 
             // Creating SQLite table if dose n't exists.
-            SQLiteTableBuild();
+            sqlitetablebuild();
 
             // Checking EditText is empty or Not.
-            CheckEditTextStatus();
+            checkEditTextStatus();
 
             // Method to check Email is already exists or not.
-            CheckingEmailAlreadyExistsOrNot();
+            checkingEmailAlreadyExistsOrNot();
 
             // Empty EditText After done inserting process.
-            EmptyEditTextAfterDataInsert();
+            emptyEditTextAfterDataInsert();
 
 
         });
@@ -66,31 +71,29 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // SQLite database build method.
-    public void SQLiteDataBaseBuild(){
+    public void sqlitedatabasebuild(){
 
         db = openOrCreateDatabase(SQLiteHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
 
     }
 
     // SQLite table build method.
-    public void SQLiteTableBuild() {
+    public void sqlitetablebuild() {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + SQLiteHelper.TABLE_NAME + "(" + SQLiteHelper.Table_Column_ID + " PRIMARY KEY AUTOINCREMENT NOT NULL, " + SQLiteHelper.Table_Column_1_Name + " VARCHAR, " + SQLiteHelper.Table_Column_2_Email + " VARCHAR, "+SQLiteHelper.Table_Column_3_Phone+"VARCHAR, " + SQLiteHelper.Table_Column_4_Password + " VARCHAR);");
 
     }
 
     // Insert data into SQLite database method.
-    public void InsertDataIntoSQLiteDatabase(){
+    public void insertDataIntoSQLiteDatabase(){
 
         // If editText is not empty then this block will executed.
-        if(editTextEmptyHolder == true)
-        {
-
+        if(editTextEmptyHolder) {
             // SQLite query to insert data into table.
-            SQLiteDataBaseQueryHolder = "INSERT INTO "+SQLiteHelper.TABLE_NAME+" (name,email,phone,password) VALUES('"+ nameHolder +"', '"+ emailHolder+"', '"+ phoneHolder +"', '"+ passwordHolder +"');";
+            sqlitedatabasequeryholder = "INSERT INTO "+SQLiteHelper.TABLE_NAME+" (name,email,phone,password) VALUES('"+ nameHolder +"', '"+ emailHolder+"', '"+ phoneHolder +"', '"+ passwordHolder +"');";
 
             // Executing query.
-            db.execSQL(SQLiteDataBaseQueryHolder);
+            db.execSQL(sqlitedatabasequeryholder);
 
             // Closing SQLite database object.
             db.close();
@@ -111,33 +114,27 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // Empty edittext after done inserting process method.
-    public void EmptyEditTextAfterDataInsert(){
-        Name.getEditText().getText().clear();
-        Email.getEditText().getText().clear();
-        Password.getEditText().getText().clear();
+    public void emptyEditTextAfterDataInsert(){
+        Objects.requireNonNull(name.getEditText()).getText().clear();
+        Objects.requireNonNull(email.getEditText()).getText().clear();
+        Objects.requireNonNull(password.getEditText()).getText().clear();
 
     }
 
     // Method to check EditText is empty or Not.
-    public void CheckEditTextStatus(){
+    public void checkEditTextStatus(){
 
         // Getting value from All EditText and storing into String Variables.
-        nameHolder = Name.getEditText().getText().toString() ;
-        emailHolder = Email.getEditText().getText().toString();
-        passwordHolder = Password.getEditText().getText().toString();
-        phoneHolder=Phone.getEditText().getText().toString();
+        nameHolder = Objects.requireNonNull(name.getEditText()).getText().toString() ;
+        emailHolder = Objects.requireNonNull(email.getEditText()).getText().toString();
+        passwordHolder = Objects.requireNonNull(password.getEditText()).getText().toString();
+        phoneHolder= Objects.requireNonNull(phone.getEditText()).getText().toString();
 
-        if(TextUtils.isEmpty(nameHolder) || TextUtils.isEmpty(emailHolder) || TextUtils.isEmpty(phoneHolder) || TextUtils.isEmpty(passwordHolder)){
-            editTextEmptyHolder = false ;
-        }
-        else {
-
-            editTextEmptyHolder = true ;
-        }
+        editTextEmptyHolder = !TextUtils.isEmpty(nameHolder) && !TextUtils.isEmpty(emailHolder) && !TextUtils.isEmpty(phoneHolder) && !TextUtils.isEmpty(passwordHolder);
     }
 
     // Checking Email is already exists or not.
-    public void CheckingEmailAlreadyExistsOrNot(){
+    public void checkingEmailAlreadyExistsOrNot(){
 
         // Opening SQLite database write permission.
         db = sqLiteHelper.getWritableDatabase();
@@ -160,13 +157,13 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // Calling method to check final result and insert data into SQLite database.
-        CheckFinalResult();
+        checkFinalResult();
 
     }
 
 
     // Checking result
-    public void CheckFinalResult(){
+    public void checkFinalResult(){
 
         // Checking whether email is already exists or not.
         if(fResult.equalsIgnoreCase("Email Found"))
@@ -179,7 +176,7 @@ public class RegisterActivity extends AppCompatActivity {
         else {
 
             // If email already dose n't exists then user registration details will entered to SQLite database.
-            InsertDataIntoSQLiteDatabase();
+            insertDataIntoSQLiteDatabase();
 
         }
 

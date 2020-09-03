@@ -1,6 +1,7 @@
 package com.urk17cs290.userlogin;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,48 +12,53 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String USER_EMAIL = "";
-    Button LogInButton, RegisterButton ;
-    TextInputLayout Email, Password ;
-    String EmailHolder, PasswordHolder;
-    Boolean EditTextEmptyHolder;
+    Button logInButton;
+    Button registerButton;
+    TextInputLayout email;
+    TextInputLayout password;
+    String emailHolder;
+    String passwordHolder;
+    Boolean editTextEmptyHolder = false;
     SQLiteDatabase db;
     SQLiteHelper sqLiteHelper;
     Cursor cursor;
     String tempPassword = "NOT_FOUND" ;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         setContentView(R.layout.activity_main);
 
-        LogInButton = (Button)findViewById(R.id.buttonLogin);
+        logInButton = findViewById(R.id.buttonLogin);
 
-        RegisterButton = (Button)findViewById(R.id.buttonRegister);
+        registerButton = findViewById(R.id.buttonRegister);
 
-        Email = findViewById(R.id.editEmail);
+        email = findViewById(R.id.editEmail);
 
-        Password = findViewById(R.id.editPassword);
+        password = findViewById(R.id.editPassword);
 
         sqLiteHelper = new SQLiteHelper(this);
 
         //Adding click listener to log in button.
-        LogInButton.setOnClickListener(view -> {
+        logInButton.setOnClickListener(view -> {
             // Calling EditText is empty or no method.
-            CheckEditTextStatus();
+            checkEditTextStatus();
             // Calling login method.
-            LoginFunction();
+            loginFunction();
         });
 
         // Adding click listener to register button.
-        RegisterButton.setOnClickListener((v)->{
+        registerButton.setOnClickListener(v ->{
 //          Opening new user registration activity using intent on button click.
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
             startActivity(intent);
@@ -62,15 +68,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Login function starts from here.
-    public void LoginFunction(){
+    public void loginFunction(){
 
-        if(EditTextEmptyHolder) {
+        if(editTextEmptyHolder) {
 
             // Opening SQLite database write permission.
             db = sqLiteHelper.getWritableDatabase();
 
             // Adding search email query to cursor.
-            cursor = db.query(SQLiteHelper.TABLE_NAME, null, " " + SQLiteHelper.Table_Column_2_Email + "=?", new String[]{EmailHolder}, null, null, null);
+            cursor = db.query(SQLiteHelper.TABLE_NAME, null, " " + SQLiteHelper.Table_Column_2_Email + "=?", new String[]{emailHolder}, null, null, null);
 
             while (cursor.moveToNext()) {
                 if (cursor.isFirst()) {
@@ -82,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             // Calling method to check final result ..
-            CheckFinalResult();
+            checkFinalResult();
         }
         else {
             //If any of login EditText empty then this block will be executed.
@@ -91,31 +97,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Checking EditText is empty or not.
-    public void CheckEditTextStatus(){
+    public void checkEditTextStatus(){
 
         // Getting value from All EditText and storing into String Variables.
-        EmailHolder = Email.getEditText().getText().toString();
-        PasswordHolder = Password.getEditText().getText().toString();
+        emailHolder = Objects.requireNonNull(email.getEditText()).getText().toString();
+        passwordHolder = Objects.requireNonNull(password.getEditText()).getText().toString();
 
         // Checking EditText is empty or no using TextUtils.
-        if( TextUtils.isEmpty(EmailHolder) || TextUtils.isEmpty(PasswordHolder)){
-            EditTextEmptyHolder = false ;
-        }
-        else {
-            EditTextEmptyHolder = true ;
-        }
+        editTextEmptyHolder = !TextUtils.isEmpty(emailHolder) && !TextUtils.isEmpty(passwordHolder);
     }
 
     // Checking entered password from SQLite database email associated password.
-    public void CheckFinalResult(){
-        if(tempPassword.equalsIgnoreCase(PasswordHolder)) {
+    public void checkFinalResult(){
+        if(tempPassword.equalsIgnoreCase(passwordHolder)) {
             Toast.makeText(MainActivity.this,"Login Successfully",Toast.LENGTH_LONG).show();
             // Going to Dashboard activity after login success message.
             Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
             // Sending Email to Dashboard Activity using intent.
-            intent.putExtra("USER_EMAIL", EmailHolder);
+            intent.putExtra("USER_EMAIL", emailHolder);
             intent.putExtra("USER_PASS",tempPassword);
-              Log.d("TAG", "CheckFinalResult: emailHolder : "+EmailHolder);
+              Log.d("TAG", "checkFinalResult: emailHolder : "+ emailHolder);
 
             startActivity(intent);
         }

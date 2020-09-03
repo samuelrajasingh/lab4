@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/scrollView"
         android:layout_centerHorizontal="true"
-        android:background="#3E298C"
+        android:background="@color/btnColor"
         android:text="@string/logout"
         android:textColor="@android:color/white" />
 
